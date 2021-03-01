@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "692961640793",
+    "project_id": "anonymeet-25976",
+    "storage_bucket": "anonymeet-25976.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:692961640793:android:277d40fb2c01b396470c48",
+        "android_client_info": {
+          "package_name": "com.mmm.anonymeet.mmm_anonymeet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "692961640793-0cnb4ihgj2m77en2nrvg4h57sq7o9k2j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDljYxUB6ZzxRT3CRXY4nUuR-Mdc_QdpTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "692961640793-0cnb4ihgj2m77en2nrvg4h57sq7o9k2j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
