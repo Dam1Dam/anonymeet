@@ -45,4 +45,5 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDjKximQQBVnkjG6U-Yyg3zXlLkSoGwWpE" />
     </application>
+    <uses-sdk android:minSdkVersion="21"/>
 </manifest>
