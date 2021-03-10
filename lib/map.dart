@@ -10,6 +10,9 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mmm_anonymeet/Personne.dart';
+import 'Personne.dart';
+
 
 
 void main() => runApp(MyApp());
@@ -34,26 +37,63 @@ class _MyAppState extends State<MyApp> {
   void locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     currentPosition = position;
-    LatLng latLongPosition = LatLng(position.latitude,position.longitude);
-    CameraPosition cameraPosition = new CameraPosition(target: latLongPosition, zoom:10);
-    mapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+    setState(() {
+      _initialPosition =LatLng(position.latitude,position.longitude);
+    });
+    //CameraPosition cameraPosition = new CameraPosition(target: _initialPosition, zoom:10);
+    //mapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
   }
-  Future<List<LatLng>> getPositions() async {
+  void setCustomMarker() async {
+    myIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(),'assets/myIcon.png');
+  }
+  Future<List<Personne>> getPeople() async {
     var uri = new Uri.http("10.0.2.2:8080", "/profile/getAll");
     var response = await http.get(uri);
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
+      final data = (json.decode(response.body) as List).map((i) =>
+          Personne.fromJson(i)).toList();
+      print(data);
+      setState(() {
+
+      });
+      return data;
     }else{
     throw Exception('Failed to load');
     }
   }
+  void getPositions() async {
+    List<Personne> personne = await getPeople();
+
+    int countId=0;
+    for (int i = 0; i < personne.length; i ++) {
+      allMarkers.add((new Marker(
+          markerId: MarkerId(countId.toString()),
+          position: personne[i].getPos(),
+          icon: myIcon,
+          infoWindow: InfoWindow(
+            title: personne[i].pseudo,
+            snippet: personne[i].age
+          )
+      ))
+      );
+      countId++;
+    }
+
+    print(allMarkers);
+  }
+
+
 
   @override
   void initState() {
-    locatePosition();
     super.initState();
-      }
+    setCustomMarker();
+    locatePosition();
+
+
+  }
 
 
   void _setStyle(GoogleMapController controller){
@@ -63,7 +103,7 @@ class _MyAppState extends State<MyApp> {
 
 
   void _onMapCreated(GoogleMapController controller) {
-
+    getPositions();
     mapController = controller;
     _setStyle(mapController);
 
@@ -91,14 +131,13 @@ class _MyAppState extends State<MyApp> {
                 zoom: 14.4746,
               ),
               onMapCreated: _onMapCreated,
-              zoomGesturesEnabled: true,
+              zoomGesturesEnabled: false,
               myLocationEnabled: true,
-              compassEnabled: true,
-              myLocationButtonEnabled: false,
+              compassEnabled: false,
+              myLocationButtonEnabled: true,
             ),
         ),
     ),);
 
   }
 }
-
