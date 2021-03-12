@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mmm_anonymeet/login_page.dart';
+import 'package:mmm_anonymeet/Page/login_page.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -45,7 +45,7 @@ class StartState extends State<SplashScreen> {
   }
 
   startTimer() async {
-    var duration = new Duration(seconds: 6);
+    var duration = new Duration(seconds: 4);
     return new Timer(duration, route);
   }
 

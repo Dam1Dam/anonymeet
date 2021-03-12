@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mmm_anonymeet/splash_screen.dart';
+import 'package:mmm_anonymeet/Page/splash_screen.dart';
 
 
 void main() => runApp(MyApp());

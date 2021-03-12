@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mmm_anonymeet/sign_in.dart';
-
-import 'login_page.dart';
+import 'package:mmm_anonymeet/Page/chatPage.dart';
+import 'package:mmm_anonymeet/Page/profiler_register.dart';
+import 'package:mmm_anonymeet/Page/splash_screen.dart';
+import 'package:mmm_anonymeet/Services/sign_in.dart';
 
 class FirstScreen extends StatelessWidget {
   @override
@@ -12,7 +13,7 @@ class FirstScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Colors.white, Colors.pink[400]],
+            colors: [Colors.white, Colors.white],
           ),
         ),
         child: Center(
@@ -61,7 +62,10 @@ class FirstScreen extends StatelessWidget {
               RaisedButton(
                 onPressed: () {
                   signOutGoogle();
-                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {return LoginPage();}), ModalRoute.withName('/'));
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) {
+                    return SplashScreen();
+                  }), ModalRoute.withName('/'));
                 },
                 color: Colors.deepPurple,
                 child: Padding(
@@ -74,6 +78,36 @@ class FirstScreen extends StatelessWidget {
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40)),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProfilerRegister()));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Profile',
+                    style: TextStyle(fontSize: 25, color: Colors.white),
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(primary: Colors.pink),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => ChatPage()));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Let\'s Chat',
+                    style: TextStyle(fontSize: 25, color: Colors.white),
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(primary: Colors.pink),
               )
             ],
           ),
