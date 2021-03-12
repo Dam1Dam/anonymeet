@@ -45,8 +45,10 @@ class _MyAppState extends State<MyApp> {
     //mapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
   }
-  void setCustomMarker() async {
-    myIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(),'assets/myIcon.png');
+  Future<BitmapDescriptor> setCustomMarker() async {
+
+    
+    return myIcon;
   }
   Future<List<Personne>> getPeople() async {
     var uri = new Uri.http("10.0.2.2:8080", "/profile/getAll");
@@ -63,15 +65,34 @@ class _MyAppState extends State<MyApp> {
     throw Exception('Failed to load');
     }
   }
+  
   void getPositions() async {
     List<Personne> personne = await getPeople();
 
     int countId=0;
     for (int i = 0; i < personne.length; i ++) {
+      var url = personne[i].imgUrl;
+      if (url == null) {
+        myIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(),'assets/myIcon.png');
+        setState(() {
+
+        });
+      }
+      else{
+        var dataBytes;
+        var request = await http.get(url);
+        var bytes = request.bodyBytes;
+
+        setState(() {
+          dataBytes = bytes;
+        });
+        myIcon = BitmapDescriptor.fromBytes(dataBytes.buffer.asUint8List());
+      }
+      var thisIcon = setCustomMarker();
       allMarkers.add((new Marker(
           markerId: MarkerId(countId.toString()),
           position: personne[i].getPos(),
-          icon: myIcon,
+          icon: await thisIcon,
           infoWindow: InfoWindow(
             title: personne[i].pseudo,
             snippet: personne[i].age
